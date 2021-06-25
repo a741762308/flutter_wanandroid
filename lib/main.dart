@@ -73,11 +73,15 @@ class _MyMainPageState extends State<MyMainPage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(_titles[_currentTab]),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
+      appBar: PreferredSize(
+        child: AppBar(
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: Text(_titles[_currentTab]),
+          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
+          elevation: _currentTab == _titles.length - 1 ? 0 : 4,
+        ),
+        preferredSize: Size(double.infinity, 48),
       ),
       body: _pages[_currentTab],
       drawer: Drawer(),
@@ -92,7 +96,7 @@ class _MyMainPageState extends State<MyMainPage> {
           TabItem(icon: Icons.home, title: '首页'),
           TabItem(icon: Icons.navigation, title: '导航'),
           TabItem(icon: MyIcon.project, title: '项目'),
-          TabItem(icon:  MyIcon.wechat_public, title: '公众号')
+          TabItem(icon: MyIcon.wechat_public, title: '公众号')
         ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
