@@ -26,6 +26,7 @@ ChapterArticle _$ChapterArticleFromJson(Map<String, dynamic> json) {
     author: json['author'] as String?,
     collect: json['collect'] as bool?,
     publishTime: json['publishTime'] as int?,
+    niceDate: json['niceDate'] as String?,
     link: json['link'] as String?,
   );
 }
@@ -37,5 +38,6 @@ Map<String, dynamic> _$ChapterArticleToJson(ChapterArticle instance) =>
       'author': instance.author,
       'collect': instance.collect,
       'publishTime': instance.publishTime,
+      'niceDate': instance.niceDate,
       'link': instance.link,
     };

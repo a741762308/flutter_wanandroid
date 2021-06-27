@@ -2,11 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_wanandroid_app/http/bean/chapter.dart';
 
 class WebViewPage extends StatefulWidget {
   final String? webUrl;
+  final ChapterArticle? chapterArticle;
 
-  WebViewPage({Key? key, required this.webUrl}) : super(key: key);
+  WebViewPage({Key? key, required this.webUrl, this.chapterArticle})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -54,10 +57,26 @@ class _WebViewState extends State<WebViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: null,
-          automaticallyImplyLeading: true,
-          title: Text(""),
-        ),
+            leading: null,
+            automaticallyImplyLeading: true,
+            title: Text(widget.chapterArticle?.title ?? ""),
+            actions: [
+              widget.chapterArticle == null
+                  ? Container()
+                  : IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.favorite,
+                          color: widget.chapterArticle?.collect ?? false
+                              ? Colors.white
+                              : Colors.grey),
+                    ),
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.share,
+                    color: Colors.white,
+                  ))
+            ]),
         body: Stack(
           children: [
             InAppWebView(

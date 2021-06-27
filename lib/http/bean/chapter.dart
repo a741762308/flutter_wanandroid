@@ -22,15 +22,16 @@ class ChapterArticle {
   String? author;
   bool? collect;
   int? publishTime;
+  String? niceDate;
   String? link;
 
-  ChapterArticle(
-      {this.id,
-      this.title,
-      this.author,
-      this.collect,
-      this.publishTime,
-      this.link});
+  ChapterArticle({this.id,
+    this.title,
+    this.author,
+    this.collect,
+    this.publishTime,
+    this.niceDate,
+    this.link});
 
   factory ChapterArticle.fromJson(Map<String, dynamic> json) =>
       _$ChapterArticleFromJson(json);

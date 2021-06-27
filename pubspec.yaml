@@ -35,6 +35,8 @@ dependencies:
   convex_bottom_bar: ^3.0.0
   tab_indicator_styler: ^2.0.0-null-safety
   like_button: ^2.0.2
+  card_swiper: ^1.0.2
+  cached_network_image: ^3.0.0
 
 
 

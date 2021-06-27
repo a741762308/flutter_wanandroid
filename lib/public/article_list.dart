@@ -129,10 +129,14 @@ class _ArticleItemState extends State<_ArticleItem> {
           padding: EdgeInsets.all(5),
           child: Column(
             children: [
-              Row(
+              Flex(
+                direction: Axis.horizontal,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(widget.chapterArticle.title ?? ""),
+                  Expanded(
+                    flex: 1,
+                    child: Text(widget.chapterArticle.title ?? ""),
+                  ),
                   LikeButton(
                     likeBuilder: (isLike) {
                       return Icon(Icons.favorite,
@@ -150,7 +154,7 @@ class _ArticleItemState extends State<_ArticleItem> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(widget.chapterArticle.author ?? ""),
-                    Text("1111")
+                    Text(widget.chapterArticle.niceDate?.substring(0, 10) ?? "")
                   ],
                 ),
               )
@@ -159,8 +163,16 @@ class _ArticleItemState extends State<_ArticleItem> {
         ),
       ),
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: ((context) {
-          return WebViewPage(webUrl: widget.chapterArticle.link);
+        Navigator.push(context, PageRouteBuilder(
+            pageBuilder: ((context, animation, secondaryAnimation) {
+          return SlideTransition(
+            position: Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0))
+                .animate(CurvedAnimation(
+                    parent: animation, curve: Curves.fastOutSlowIn)),
+            child: WebViewPage(
+              webUrl: widget.chapterArticle.link,
+            ),
+          );
         })));
       },
     );

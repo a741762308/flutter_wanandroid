@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_wanandroid_app/http/bean/chapter.dart';
+import 'package:flutter_wanandroid_app/http/bean/banner.dart';
 import 'package:flutter_wanandroid_app/http/response/response.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:retrofit/retrofit.dart';
@@ -16,6 +17,9 @@ abstract class RestClient {
   @GET("/wxarticle/list/{id}/{page}/json")
   Future<BaseResponse<ChapterAuthorArticleResponse>> getChapterAuthorList(
       @Path("id") int id, @Path("page") int page);
+
+  @GET("/banner/json")
+  Future<BaseResponse<Banner>> getBannerList();
 }
 
 @JsonSerializable(genericArgumentFactories: true)
