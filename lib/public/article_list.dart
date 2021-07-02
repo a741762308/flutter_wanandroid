@@ -111,6 +111,17 @@ class _ArticleItem extends StatefulWidget {
 }
 
 class _ArticleItemState extends State<_ArticleItem> {
+  RegExp _dateRegExp = RegExp(
+      r'^\d{4}[\-\/\.]((0[1-9])|(1[012]))[\-\/\.]((0[1-9]|[1-2][0-9]|3[0-1]))');
+
+  String _dateString(String? dateString) {
+    if (dateString == null) {
+      return "";
+    }
+    String date = dateString;
+    return _dateRegExp.stringMatch(date) ?? date;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -154,7 +165,7 @@ class _ArticleItemState extends State<_ArticleItem> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(widget.chapterArticle.author ?? ""),
-                    Text(widget.chapterArticle.niceDate?.substring(0, 10) ?? "")
+                    Text(_dateString(widget.chapterArticle.niceDate))
                   ],
                 ),
               )

@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart' hide Banner;
-import 'package:card_swiper/card_swiper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:card_swiper/card_swiper.dart';
+import 'package:flutter/material.dart' hide Banner;
 import 'package:flutter_wanandroid_app/http/bean/banner.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -43,11 +43,27 @@ class _HomePageSate extends State<HomePage> {
             if (i == 0) {
               return Swiper(
                 itemBuilder: (context, index) {
-                  return CachedNetworkImage(
-                    imageUrl: _banners[index].imagePath ?? "",
-                    fit: BoxFit.fill,
-                    placeholder: (context, url) => CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  return Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      CachedNetworkImage(
+                        imageUrl: _banners[index].imagePath ?? "",
+                        fit: BoxFit.fill,
+                        width: 1080,
+                        height: 300,
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(color: Color(0x90000000)),
+                        child: Text(
+                          _banners[index].title ?? "",
+                          maxLines: 2,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )
+                    ],
                   );
                 },
                 itemCount: _banners.length,
