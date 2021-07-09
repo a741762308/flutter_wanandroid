@@ -3,17 +3,17 @@ import 'package:json_annotation/json_annotation.dart';
 part 'banner.g.dart';
 
 @JsonSerializable()
-class Banner {
+class BannerBean {
   int? id;
   String? imagePath;
   String? title;
   String? url;
   String? desc;
 
-  Banner({this.id, this.title, this.imagePath, this.url, this.desc});
+  BannerBean({this.id, this.title, this.imagePath, this.url, this.desc});
 
-  factory Banner.fromJson(Map<String, dynamic> json) =>
-      _$BannerFromJson(json);
+  factory BannerBean.fromJson(Map<String, dynamic> json) =>
+      _$BannerBeanFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BannerToJson(this);
+  Map<String, dynamic> toJson() => _$BannerBeanToJson(this);
 }

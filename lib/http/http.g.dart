@@ -93,19 +93,19 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<BaseResponse<Banner>> getBannerList() async {
+  Future<BaseResponse<BannerBean>> getBannerList() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<BaseResponse<Banner>>(
+        _setStreamType<BaseResponse<BannerBean>>(
             Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
                 .compose(_dio.options, '/banner/json',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = BaseResponse<Banner>.fromJson(
+    final value = BaseResponse<BannerBean>.fromJson(
       _result.data!,
-      (json) => Banner.fromJson(json as Map<String, dynamic>),
+      (json) => BannerBean.fromJson(json as Map<String, dynamic>),
     );
     return value;
   }
