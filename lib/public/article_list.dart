@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wanandroid_app/http/bean/chapter.dart';
 import 'package:flutter_wanandroid_app/http/http.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_wanandroid_app/http/response/response.dart';
 import 'package:flutter_wanandroid_app/web/web_view.dart';
 import 'package:like_button/like_button.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:rxdart/rxdart.dart';
 
 class ArticleListPage extends StatefulWidget {
   final int authorId;
@@ -25,54 +27,55 @@ class _ArticleListState extends State<ArticleListPage> {
     ChapterArticle(author: "过滤", title: "RecyclerView 中的秘密探索，起飞 Fling ~")
   ];
   int _page = 1;
+  final _apiService = RestClient(Dio());
 
   _ArticleListState({required int authorId});
 
   @override
   void initState() {
     super.initState();
-    getArticleList().then((value) {
+    _getArticleList().doOnData((value) {
       print("请求到数据：data length=${value.data?.datas?.length}");
       setState(() {
         _items.clear();
         _items.addAll(value.data?.datas ?? Iterable.empty());
       });
-    }).catchError((e) {
-      print(e);
-    });
+    }).doOnError((error, stacktrace) {
+      print(stacktrace);
+    }).listen(null);
   }
 
-  Future<BaseResponse<ChapterAuthorArticleResponse>> getArticleList() async {
-    return RestClient(Dio()).getChapterAuthorList(widget.authorId, _page);
+  Stream<BaseResponse<ChapterAuthorArticleResponse>> _getArticleList() {
+    return _apiService.getChapterAuthorList(widget.authorId, _page);
   }
 
-  void _onRefresh() async {
+  void _onRefresh() {
     _page = 1;
-    getArticleList().then((value) {
+    _getArticleList().doOnData((value) {
       print("请求到数据：data length=${value.data?.datas?.length}");
       setState(() {
         _items.clear();
         _items.addAll(value.data?.datas ?? Iterable.empty());
       });
       _refreshController.refreshCompleted();
-    }).catchError((e) {
-      print(e);
+    }).doOnError((error, stacktrace) {
+      print(stacktrace);
       _refreshController.refreshFailed();
-    });
+    }).listen(null);
   }
 
   void _onLoading() async {
     _page++;
-    getArticleList().then((value) {
+    _getArticleList().doOnData((value) {
       print("请求到数据：data length=${value.data?.datas?.length}");
       setState(() {
         _items.addAll(value.data?.datas ?? Iterable.empty());
       });
       _refreshController.loadComplete();
-    }).catchError((e) {
-      print(e);
+    }).doOnError((error, stacktrace) {
+      print(stacktrace);
       _refreshController.loadFailed();
-    });
+    }).listen(null);
   }
 
   @override
@@ -174,15 +177,10 @@ class _ArticleItemState extends State<_ArticleItem> {
         ),
       ),
       onTap: () {
-        Navigator.push(context, PageRouteBuilder(
-            pageBuilder: ((context, animation, secondaryAnimation) {
-          return SlideTransition(
-            position: Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0))
-                .animate(CurvedAnimation(
-                    parent: animation, curve: Curves.fastOutSlowIn)),
-            child: WebViewPage(
-              webUrl: widget.chapterArticle.link,
-            ),
+        Navigator.push(context, CupertinoPageRoute(builder: ((context) {
+          return WebViewPage(
+            webUrl: widget.chapterArticle.link,
+            chapterArticle: widget.chapterArticle,
           );
         })));
       },

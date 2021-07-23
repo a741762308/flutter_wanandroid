@@ -53,7 +53,7 @@ class _RestClient implements RestClient {
   String? baseUrl;
 
   @override
-  Future<BaseResponse<List<ChapterAuthor>>> getChapterAuthor() async {
+  Stream<BaseResponse<List<ChapterAuthor>>> getChapterAuthor() async* {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -69,12 +69,12 @@ class _RestClient implements RestClient {
             .map<ChapterAuthor>(
                 (i) => ChapterAuthor.fromJson(i as Map<String, dynamic>))
             .toList());
-    return value;
+    yield value;
   }
 
   @override
-  Future<BaseResponse<ChapterAuthorArticleResponse>> getChapterAuthorList(
-      id, page) async {
+  Stream<BaseResponse<ChapterAuthorArticleResponse>> getChapterAuthorList(
+      id, page) async* {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -89,25 +89,27 @@ class _RestClient implements RestClient {
       (json) =>
           ChapterAuthorArticleResponse.fromJson(json as Map<String, dynamic>),
     );
-    return value;
+    yield value;
   }
 
   @override
-  Future<BaseResponse<BannerBean>> getBannerList() async {
+  Stream<BaseResponse<List<BannerBean>>> getBannerList() async* {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<BaseResponse<BannerBean>>(
+        _setStreamType<BaseResponse<List<BannerBean>>>(
             Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
                 .compose(_dio.options, '/banner/json',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = BaseResponse<BannerBean>.fromJson(
-      _result.data!,
-      (json) => BannerBean.fromJson(json as Map<String, dynamic>),
-    );
-    return value;
+    final value = BaseResponse<List<BannerBean>>.fromJson(
+        _result.data!,
+        (json) => (json as List<dynamic>)
+            .map<BannerBean>(
+                (i) => BannerBean.fromJson(i as Map<String, dynamic>))
+            .toList());
+    yield value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

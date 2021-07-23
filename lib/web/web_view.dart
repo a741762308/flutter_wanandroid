@@ -34,10 +34,12 @@ class _WebViewState extends State<WebViewPage> {
       ));
   late PullToRefreshController pullToRefreshController;
   double progress = 0;
+  String _title = "";
 
   @override
   void initState() {
     super.initState();
+    _title = widget.chapterArticle?.title ?? "";
     pullToRefreshController = PullToRefreshController(
       options: PullToRefreshOptions(
         color: Colors.blue,
@@ -59,7 +61,7 @@ class _WebViewState extends State<WebViewPage> {
         appBar: AppBar(
             leading: null,
             automaticallyImplyLeading: true,
-            title: Text(widget.chapterArticle?.title ?? ""),
+            title: Text(_title),
             actions: [
               widget.chapterArticle == null
                   ? Container()
@@ -103,6 +105,11 @@ class _WebViewState extends State<WebViewPage> {
                 }
                 setState(() {
                   this.progress = progress / 100;
+                });
+              },
+              onTitleChanged: (controller, title) {
+                setState(() {
+                  _title = title ?? "";
                 });
               },
             ),

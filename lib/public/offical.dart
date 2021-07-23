@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wanandroid_app/http/bean/chapter.dart';
 import 'package:flutter_wanandroid_app/http/http.dart';
 import 'package:flutter_wanandroid_app/public/article_list.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 /// 微信公众号
@@ -20,7 +21,7 @@ class _TabBarState extends State<WechatPublicPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: _tabs.length, vsync: this);
-    RestClient(Dio()).getChapterAuthor().then((value) {
+    RestClient(Dio()).getChapterAuthor().doOnData((value) {
       print("请求到数据：data length=${value.data?.length}");
       _tabController =
           TabController(length: value.data?.length ?? 0, vsync: this);
@@ -28,9 +29,9 @@ class _TabBarState extends State<WechatPublicPage>
         _tabs.clear();
         _tabs.addAll(value.data ?? Iterable.empty());
       });
-    }).catchError((e) {
-      print(e);
-    });
+    }).doOnError((error, stacktrace) {
+      print(stacktrace);
+    }).listen(null);
   }
 
   @override

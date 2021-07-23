@@ -1,7 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wanandroid_app/home/custom_banner.dart';
 import 'package:flutter_wanandroid_app/http/bean/banner.dart';
+import 'package:flutter_wanandroid_app/http/http.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:rxdart/rxdart.dart';
 
 ///首页
 class HomePage extends StatefulWidget {
@@ -30,6 +33,20 @@ class _HomePageSate extends State<HomePage> {
   void _onRefresh() async {}
 
   void _onLoading() async {}
+
+  @override
+  void initState() {
+    super.initState();
+    RestClient(Dio()).getBannerList().doOnData((value) {
+      print("请求到数据：data length=${value.data?.length}");
+      setState(() {
+        _banners.clear();
+        _banners.addAll(value.data ?? Iterable.empty());
+      });
+    }).doOnError((error, stacktrace) {
+      print(error);
+    }).listen(null);
+  }
 
   @override
   Widget build(BuildContext context) {
