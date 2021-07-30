@@ -1,4 +1,4 @@
-import 'package:flutter_wanandroid_app/http/bean/chapter.dart';
+import 'package:flutter_wanandroid_app/http/bean/chapter_bean.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'response.g.dart';

@@ -38,15 +38,24 @@ class MyMainPage extends StatefulWidget {
   _MyMainPageState createState() => _MyMainPageState();
 }
 
-class _MyMainPageState extends State<MyMainPage> {
+class _MyMainPageState extends State<MyMainPage>
+    with SingleTickerProviderStateMixin {
   int _currentTab = 0;
   final _titles = ["Wan Android", "导航", "项目", "公众号"];
+  late TabController _tabControl;
+
   final _pages = [
     HomePage(),
     NavigationPage(),
     ProjectPage(),
     WechatPublicPage()
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _tabControl = TabController(length: _titles.length, vsync: this);
+  }
 
   _onTabTap(int index) {
     switch (index) {
@@ -64,6 +73,11 @@ class _MyMainPageState extends State<MyMainPage> {
     });
   }
 
+  bool _showElevation() {
+    return _currentTab == _titles.length - 1 ||
+        _currentTab == _titles.length - 2;
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -79,13 +93,18 @@ class _MyMainPageState extends State<MyMainPage> {
           // the App.build method, and use it to set our appbar title.
           title: Text(_titles[_currentTab]),
           actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
-          elevation: _currentTab == _titles.length - 1 ? 0 : 4,
+          elevation: _showElevation() ? 0 : 4,
         ),
         preferredSize: Size(double.infinity, 48),
       ),
-      body: _pages[_currentTab],
+      body: TabBarView(
+        physics: NeverScrollableScrollPhysics(),
+        children: _pages,
+        controller: _tabControl,
+      ),
       drawer: Drawer(),
       bottomNavigationBar: ConvexAppBar(
+        controller: _tabControl,
         backgroundColor: Theme.of(context).primaryColor,
         style: TabStyle.react,
         activeColor: Colors.white,

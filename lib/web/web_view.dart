@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutter_wanandroid_app/http/bean/chapter.dart';
+import 'package:flutter_wanandroid_app/http/bean/chapter_bean.dart';
 
 class WebViewPage extends StatefulWidget {
   final String? webUrl;
@@ -25,6 +25,7 @@ class _WebViewState extends State<WebViewPage> {
       crossPlatform: InAppWebViewOptions(
         useShouldOverrideUrlLoading: true,
         mediaPlaybackRequiresUserGesture: false,
+        useOnLoadResource: true
       ),
       android: AndroidInAppWebViewOptions(
         useHybridComposition: true,
@@ -96,9 +97,9 @@ class _WebViewState extends State<WebViewPage> {
                     resources: resources,
                     action: PermissionRequestResponseAction.GRANT);
               },
-              // shouldOverrideUrlLoading: (control, navigationAction) async {
-              //   return NavigationActionPolicy.ALLOW;
-              // },
+              shouldOverrideUrlLoading: (control, navigationAction) async {
+                return NavigationActionPolicy.ALLOW;
+              },
               onProgressChanged: (controller, progress) {
                 if (progress == 100) {
                   pullToRefreshController.endRefreshing();

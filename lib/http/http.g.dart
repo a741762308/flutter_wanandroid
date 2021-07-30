@@ -112,6 +112,66 @@ class _RestClient implements RestClient {
     yield value;
   }
 
+  @override
+  Stream<BaseResponse<List<ChapterArticle>>> getTopChapterList() async* {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<BaseResponse<List<ChapterArticle>>>(
+            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+                .compose(_dio.options, '/article/top/json',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = BaseResponse<List<ChapterArticle>>.fromJson(
+        _result.data!,
+        (json) => (json as List<dynamic>)
+            .map<ChapterArticle>(
+                (i) => ChapterArticle.fromJson(i as Map<String, dynamic>))
+            .toList());
+    yield value;
+  }
+
+  @override
+  Stream<BaseResponse<ChapterAuthorArticleResponse>> getHomeChapterList(
+      page) async* {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<BaseResponse<ChapterAuthorArticleResponse>>(
+            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+                .compose(_dio.options, '/article/list/$page/json',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = BaseResponse<ChapterAuthorArticleResponse>.fromJson(
+      _result.data!,
+      (json) =>
+          ChapterAuthorArticleResponse.fromJson(json as Map<String, dynamic>),
+    );
+    yield value;
+  }
+
+  @override
+  Stream<BaseResponse<List<ProjectClassify>>> getProjectClassifyList() async* {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<BaseResponse<List<ProjectClassify>>>(
+            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+                .compose(_dio.options, '/project/tree/json',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = BaseResponse<List<ProjectClassify>>.fromJson(
+        _result.data!,
+        (json) => (json as List<dynamic>)
+            .map<ProjectClassify>(
+                (i) => ProjectClassify.fromJson(i as Map<String, dynamic>))
+            .toList());
+    yield value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

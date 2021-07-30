@@ -1,27 +1,41 @@
 import 'dart:convert';
-import 'package:rxdart/rxdart.dart';
+
 import 'package:dio/dio.dart';
-import 'package:flutter_wanandroid_app/http/bean/banner.dart';
-import 'package:flutter_wanandroid_app/http/bean/chapter.dart';
-import 'package:flutter_wanandroid_app/http/response/response.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:retrofit/retrofit.dart';
 
+import 'bean/banner_bean.dart';
+import 'bean/chapter_bean.dart';
+import 'bean/project_bean.dart';
+import 'http_path.dart';
+import 'response/response.dart';
+
 part 'http.g.dart';
 
-@RestApi(baseUrl: "https://wanandroid.com")
+@RestApi(baseUrl: HttpPath.HOST)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
-  @GET('/wxarticle/chapters/json')
+  @GET(HttpPath.WX_CHAPTERS)
   Stream<BaseResponse<List<ChapterAuthor>>> getChapterAuthor();
 
-  @GET("/wxarticle/list/{id}/{page}/json")
+  @GET(HttpPath.WX_ARTICLE_LIST)
   Stream<BaseResponse<ChapterAuthorArticleResponse>> getChapterAuthorList(
       @Path("id") int id, @Path("page") int page);
 
-  @GET("/banner/json")
+  @GET(HttpPath.BANNER)
   Stream<BaseResponse<List<BannerBean>>> getBannerList();
+
+  @GET(HttpPath.TOP_ARTICLE_LIST)
+  Stream<BaseResponse<List<ChapterArticle>>> getTopChapterList();
+
+  @GET(HttpPath.HOME_ARTICLE_LIST)
+  Stream<BaseResponse<ChapterAuthorArticleResponse>> getHomeChapterList(
+      @Path("page") int page);
+
+  @GET(HttpPath.PROJECT_CLASSIFY)
+  Stream<BaseResponse<List<ProjectClassify>>> getProjectClassifyList();
+
 }
 
 @JsonSerializable(genericArgumentFactories: true)
@@ -32,8 +46,8 @@ class BaseResponse<T> {
 
   BaseResponse({this.code, this.msg, this.data});
 
-  factory BaseResponse.fromJson(Map<String, dynamic> json,
-      T Function(Object? json) fromJsonT) =>
+  factory BaseResponse.fromJson(
+          Map<String, dynamic> json, T Function(Object? json) fromJsonT) =>
       _$BaseResponseFromJson(json, fromJsonT);
 
   Map<String, dynamic> toJson(Object? Function(T value) toJsonT) =>
@@ -41,7 +55,6 @@ class BaseResponse<T> {
 }
 
 void main() {
-
   RegExp regExp = RegExp(r'cos.(.+).myqcloud');
   RegExpMatch? match = regExp.firstMatch(
       "http://web-sit-1257884527.cos.ap-guangzhou.myqcloud.com/h5/2021-06-24/78490587-2b9a-4a86-8544-08cbbf6cd584default.jpg");

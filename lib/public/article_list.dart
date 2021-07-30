@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_wanandroid_app/http/bean/chapter.dart';
+import 'package:flutter_wanandroid_app/http/bean/chapter_bean.dart';
 import 'package:flutter_wanandroid_app/http/http.dart';
 import 'package:flutter_wanandroid_app/http/response/response.dart';
-import 'package:flutter_wanandroid_app/web/web_view.dart';
-import 'package:like_button/like_button.dart';
+import 'package:flutter_wanandroid_app/widget/item_article.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -19,17 +18,23 @@ class ArticleListPage extends StatefulWidget {
       _ArticleListState(authorId: this.authorId);
 }
 
-class _ArticleListState extends State<ArticleListPage> {
+class _ArticleListState extends State<ArticleListPage>
+    with AutomaticKeepAliveClientMixin {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   final List<ChapterArticle> _items = [
-    ChapterArticle(author: "航洋", title: "RecyclerView 中的秘密探索，起飞 Fling ~"),
-    ChapterArticle(author: "过滤", title: "RecyclerView 中的秘密探索，起飞 Fling ~")
+    ChapterArticle(
+        id: 0, author: "航洋", title: "RecyclerView 中的秘密探索，起飞 Fling ~", link: ""),
+    ChapterArticle(
+        id: 1, author: "过滤", title: "RecyclerView 中的秘密探索，起飞 Fling ~", link: "")
   ];
   int _page = 1;
   final _apiService = RestClient(Dio());
 
   _ArticleListState({required int authorId});
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -64,7 +69,7 @@ class _ArticleListState extends State<ArticleListPage> {
     }).listen(null);
   }
 
-  void _onLoading() async {
+  void _onLoading() {
     _page++;
     _getArticleList().doOnData((value) {
       print("请求到数据：data length=${value.data?.datas?.length}");
@@ -80,6 +85,7 @@ class _ArticleListState extends State<ArticleListPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: SmartRefresher(
         controller: _refreshController,
@@ -91,99 +97,12 @@ class _ArticleListState extends State<ArticleListPage> {
         onLoading: _onLoading,
         child: ListView.builder(
           itemBuilder: ((c, i) {
-            return _ArticleItem(chapterArticle: _items[i]);
+            return ArticleItem(chapterArticle: _items[i]);
           }),
           itemCount: _items.length,
           itemExtent: 100,
         ),
       ),
-    );
-  }
-}
-
-class _ArticleItem extends StatefulWidget {
-  final ChapterArticle chapterArticle;
-
-  const _ArticleItem({Key? key, required this.chapterArticle})
-      : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() {
-    return _ArticleItemState();
-  }
-}
-
-class _ArticleItemState extends State<_ArticleItem> {
-  RegExp _dateRegExp = RegExp(
-      r'^\d{4}[\-\/\.]((0[1-9])|(1[012]))[\-\/\.]((0[1-9]|[1-2][0-9]|3[0-1]))');
-
-  String _dateString(String? dateString) {
-    if (dateString == null) {
-      return "";
-    }
-    String date = dateString;
-    return _dateRegExp.stringMatch(date) ?? date;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Future<bool> _onArticleLikeChange(bool isLike) async {
-    return !isLike;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      child: Card(
-        margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
-        child: Padding(
-          padding: EdgeInsets.all(5),
-          child: Column(
-            children: [
-              Flex(
-                direction: Axis.horizontal,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Text(widget.chapterArticle.title ?? ""),
-                  ),
-                  LikeButton(
-                    likeBuilder: (isLike) {
-                      return Icon(Icons.favorite,
-                          color: isLike
-                              ? Theme.of(context).primaryColor
-                              : Colors.grey);
-                    },
-                    onTap: _onArticleLikeChange,
-                  ),
-                ],
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(widget.chapterArticle.author ?? ""),
-                    Text(_dateString(widget.chapterArticle.niceDate))
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-      onTap: () {
-        Navigator.push(context, CupertinoPageRoute(builder: ((context) {
-          return WebViewPage(
-            webUrl: widget.chapterArticle.link,
-            chapterArticle: widget.chapterArticle,
-          );
-        })));
-      },
     );
   }
 }

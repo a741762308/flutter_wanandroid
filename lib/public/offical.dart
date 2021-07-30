@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_wanandroid_app/http/bean/chapter.dart';
+import 'package:flutter_wanandroid_app/http/bean/chapter_bean.dart';
 import 'package:flutter_wanandroid_app/http/http.dart';
 import 'package:flutter_wanandroid_app/public/article_list.dart';
 import 'package:rxdart/rxdart.dart';
@@ -13,7 +13,7 @@ class WechatPublicPage extends StatefulWidget {
 }
 
 class _TabBarState extends State<WechatPublicPage>
-    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+    with TickerProviderStateMixin {
   final List<ChapterAuthor> _tabs = [ChapterAuthor(id: 408, name: "张鸿洋")];
   TabController? _tabController;
 
@@ -35,11 +35,7 @@ class _TabBarState extends State<WechatPublicPage>
   }
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
       appBar: PreferredSize(
         child: AppBar(

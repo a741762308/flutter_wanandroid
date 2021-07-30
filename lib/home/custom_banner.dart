@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_wanandroid_app/http/bean/banner.dart';
+import 'package:flutter_wanandroid_app/http/bean/banner_bean.dart';
 import 'package:flutter_wanandroid_app/util/route_util.dart';
 import 'package:flutter_wanandroid_app/widget/swiper_pagination.dart';
 
