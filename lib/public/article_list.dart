@@ -100,7 +100,6 @@ class _ArticleListState extends State<ArticleListPage>
             return ArticleItem(chapterArticle: _items[i]);
           }),
           itemCount: _items.length,
-          itemExtent: 100,
         ),
       ),
     );

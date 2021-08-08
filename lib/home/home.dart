@@ -20,7 +20,7 @@ class _HomePageSate extends State<HomePage> with AutomaticKeepAliveClientMixin {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   final _apiService = RestClient(Dio());
-  int _page = 1;
+  int _page = 0;
 
   List<BannerBean> _banners = [
     BannerBean(
@@ -38,7 +38,7 @@ class _HomePageSate extends State<HomePage> with AutomaticKeepAliveClientMixin {
   List<ChapterArticle> _items = [];
 
   void _onRefresh() {
-    _page = 1;
+    _page = 0;
     _getData((bool) {
       if (bool) {
         _refreshController.refreshCompleted();

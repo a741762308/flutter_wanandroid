@@ -31,6 +31,7 @@ class ChapterArticle {
   String? niceDate;
   String? link;
   List<ArticleTag>? tags;
+  bool? fresh = false;
   bool top = false;
 
   ChapterArticle(
@@ -47,6 +48,7 @@ class ChapterArticle {
       this.publishTime,
       this.niceDate,
       required this.link,
+      this.fresh,
       this.tags});
 
   factory ChapterArticle.fromJson(Map<String, dynamic> json) =>

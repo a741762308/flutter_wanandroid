@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_wanandroid_app/http/bean/chapter_bean.dart';
 import 'package:flutter_wanandroid_app/web/web_view.dart';
 import 'package:like_button/like_button.dart';
@@ -7,8 +8,7 @@ import 'package:like_button/like_button.dart';
 class ArticleItem extends StatefulWidget {
   final ChapterArticle chapterArticle;
 
-  const ArticleItem({Key? key, required this.chapterArticle})
-      : super(key: key);
+  const ArticleItem({Key? key, required this.chapterArticle}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -49,14 +49,39 @@ class _ArticleItemState extends State<ArticleItem> {
               Row(
                 children: [
                   Offstage(
-                    offstage: widget.chapterArticle.top == false,
+                    offstage: !widget.chapterArticle.top,
                     child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.red,
+                            width: 0.5,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(2))),
+                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      margin: EdgeInsets.only(right: 10),
                       child: Text(
                         "置顶",
                         style: TextStyle(color: Colors.red),
                       ),
                     ),
                   ),
+                  Offstage(
+                    offstage: widget.chapterArticle.fresh == false,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.red,
+                            width: 0.5,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(2))),
+                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      margin: EdgeInsets.only(right: 10),
+                      child: Text(
+                        "新",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                  )
                 ],
               ),
               Flex(
@@ -65,7 +90,7 @@ class _ArticleItemState extends State<ArticleItem> {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: Text(widget.chapterArticle.title ?? ""),
+                    child: Html(data: widget.chapterArticle.title ?? ""),
                   ),
                   LikeButton(
                     likeBuilder: (isLike) {

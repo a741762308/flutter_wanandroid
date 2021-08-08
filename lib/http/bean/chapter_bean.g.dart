@@ -37,6 +37,7 @@ ChapterArticle _$ChapterArticleFromJson(Map<String, dynamic> json) {
     tags: (json['tags'] as List<dynamic>?)
         ?.map((e) => ArticleTag.fromJson(e as Map<String, dynamic>))
         .toList(),
+    fresh: json['fresh'] as bool?,
   );
 }
 
@@ -56,6 +57,7 @@ Map<String, dynamic> _$ChapterArticleToJson(ChapterArticle instance) =>
       'niceDate': instance.niceDate,
       'link': instance.link,
       'tags': instance.tags,
+      'fresh': instance.fresh,
       'top': instance.top,
     };
 
