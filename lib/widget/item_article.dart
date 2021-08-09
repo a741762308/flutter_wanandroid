@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_wanandroid_app/http/bean/chapter_bean.dart';
 import 'package:flutter_wanandroid_app/web/web_view.dart';
+import 'package:html/parser.dart';
 import 'package:like_button/like_button.dart';
 
 class ArticleItem extends StatefulWidget {
@@ -90,7 +90,7 @@ class _ArticleItemState extends State<ArticleItem> {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: Html(data: widget.chapterArticle.title ?? ""),
+                    child: Text(parse(widget.chapterArticle.title).body?.text ?? ""),
                   ),
                   LikeButton(
                     likeBuilder: (isLike) {

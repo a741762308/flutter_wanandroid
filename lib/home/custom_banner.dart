@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wanandroid_app/http/bean/banner_bean.dart';
 import 'package:flutter_wanandroid_app/util/route_util.dart';
 import 'package:flutter_wanandroid_app/widget/swiper_pagination.dart';
+import 'package:html/parser.dart';
 
 class CustomBanner extends StatefulWidget {
   final List<BannerBean> banners;
@@ -38,7 +39,7 @@ class _CustomBannerState extends State<CustomBanner> {
             Expanded(
               flex: 1,
               child: Text(
-                widget.banners[_currentIndex].title ?? "",
+                parse(widget.banners[_currentIndex].title).body?.text ?? "",
                 maxLines: 1,
                 textAlign: TextAlign.start,
                 overflow: TextOverflow.ellipsis,
