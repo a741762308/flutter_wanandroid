@@ -20,6 +20,21 @@ class ProjectClassify {
   Map<String, dynamic> toJson() => _$ProjectClassifyToJson(this);
 }
 
+@JsonSerializable()
 class ProjectArticle extends ChapterArticle {
-  ProjectArticle(int? id, String? title) : super(id, title);
+  String? envelopePic;
+  String? projectLink;
+
+  ProjectArticle(
+      {int? id,
+      String? title,
+      String? link,
+      this.envelopePic,
+      this.projectLink})
+      : super(id: id, title: title, link: link);
+
+  factory ProjectArticle.fromJson(Map<String, dynamic> json) =>
+      _$ProjectArticleFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProjectArticleToJson(this);
 }

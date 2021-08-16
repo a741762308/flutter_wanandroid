@@ -36,6 +36,13 @@ abstract class RestClient {
   @GET(HttpPath.PROJECT_CLASSIFY)
   Stream<BaseResponse<List<ProjectClassify>>> getProjectClassifyList();
 
+  @GET(HttpPath.PROJECT_LIST_LAST)
+  Stream<BaseResponse<ProjectArticleResponse>> getLastProjectList(
+      @Path("page") int page);
+
+  @GET(HttpPath.PROJECT_LIST)
+  Stream<BaseResponse<ProjectArticleResponse>> getProjectList(
+      @Query("cid") int id, @Path("page") int page);
 }
 
 @JsonSerializable(genericArgumentFactories: true)

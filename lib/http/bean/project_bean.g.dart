@@ -23,3 +23,48 @@ Map<String, dynamic> _$ProjectClassifyToJson(ProjectClassify instance) =>
       'parentChapterId': instance.parentChapterId,
     };
 
+ProjectArticle _$ProjectArticleFromJson(Map<String, dynamic> json) {
+  return ProjectArticle(
+    id: json['id'] as int?,
+    title: json['title'] as String?,
+    link: json['link'] as String?,
+    envelopePic: json['envelopePic'] as String?,
+    projectLink: json['projectLink'] as String?,
+  )
+    ..chapterId = json['chapterId'] as int?
+    ..chapterName = json['chapterName'] as String?
+    ..superChapterId = json['superChapterId'] as int?
+    ..superChapterName = json['superChapterName'] as String?
+    ..desc = json['desc'] as String?
+    ..author = json['author'] as String?
+    ..shareUser = json['shareUser'] as String?
+    ..collect = json['collect'] as bool?
+    ..publishTime = json['publishTime'] as int?
+    ..niceDate = json['niceDate'] as String?
+    ..tags = (json['tags'] as List<dynamic>?)
+        ?.map((e) => ArticleTag.fromJson(e as Map<String, dynamic>))
+        .toList()
+    ..fresh = json['fresh'] as bool?;
+}
+
+Map<String, dynamic> _$ProjectArticleToJson(ProjectArticle instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'chapterId': instance.chapterId,
+      'chapterName': instance.chapterName,
+      'superChapterId': instance.superChapterId,
+      'superChapterName': instance.superChapterName,
+      'title': instance.title,
+      'desc': instance.desc,
+      'author': instance.author,
+      'shareUser': instance.shareUser,
+      'collect': instance.collect,
+      'publishTime': instance.publishTime,
+      'niceDate': instance.niceDate,
+      'link': instance.link,
+      'tags': instance.tags,
+      'fresh': instance.fresh,
+      'top': instance.top,
+      'envelopePic': instance.envelopePic,
+      'projectLink': instance.projectLink,
+    };

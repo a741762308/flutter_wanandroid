@@ -26,3 +26,24 @@ Map<String, dynamic> _$ChapterAuthorArticleResponseToJson(
       'size': instance.size,
       'pageCount': instance.pageCount,
     };
+
+ProjectArticleResponse _$ProjectArticleResponseFromJson(
+    Map<String, dynamic> json) {
+  return ProjectArticleResponse(
+    curPage: json['curPage'] as int?,
+    datas: (json['datas'] as List<dynamic>?)
+        ?.map((e) => ProjectArticle.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    size: json['size'] as int?,
+    pageCount: json['pageCount'] as int?,
+  );
+}
+
+Map<String, dynamic> _$ProjectArticleResponseToJson(
+        ProjectArticleResponse instance) =>
+    <String, dynamic>{
+      'curPage': instance.curPage,
+      'datas': instance.datas,
+      'size': instance.size,
+      'pageCount': instance.pageCount,
+    };

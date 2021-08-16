@@ -84,6 +84,7 @@ class _CustomBannerState extends State<CustomBanner> {
           onTap: (index) {
             RouteUtil.pushWebView(context, null, widget.banners[index].url);
           },
+          autoplay: true,
           itemCount: widget.banners.length),
     );
   }

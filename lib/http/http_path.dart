@@ -18,4 +18,10 @@ class HttpPath {
 
   ///项目分类
   static const String PROJECT_CLASSIFY = "/project/tree/json";
+
+  ///最新项目
+  static const String PROJECT_LIST_LAST = "/article/listproject/{page}/json";
+
+  ///项目列表
+  static const String PROJECT_LIST = "/project/list/{page}/json";
 }

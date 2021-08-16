@@ -172,6 +172,42 @@ class _RestClient implements RestClient {
     yield value;
   }
 
+  @override
+  Stream<BaseResponse<ProjectArticleResponse>> getLastProjectList(page) async* {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<BaseResponse<ProjectArticleResponse>>(
+            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+                .compose(_dio.options, '/article/listproject/$page/json',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = BaseResponse<ProjectArticleResponse>.fromJson(
+      _result.data!,
+      (json) => ProjectArticleResponse.fromJson(json as Map<String, dynamic>),
+    );
+    yield value;
+  }
+
+  @override
+  Stream<BaseResponse<ProjectArticleResponse>> getProjectList(id, page) async* {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'cid': id};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<BaseResponse<ProjectArticleResponse>>(
+            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+                .compose(_dio.options, '/project/list/$page/json',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = BaseResponse<ProjectArticleResponse>.fromJson(
+      _result.data!,
+      (json) => ProjectArticleResponse.fromJson(json as Map<String, dynamic>),
+    );
+    yield value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

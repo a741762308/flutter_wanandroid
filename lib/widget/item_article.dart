@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wanandroid_app/http/bean/chapter_bean.dart';
+import 'package:flutter_wanandroid_app/util/flutter_util.dart';
 import 'package:flutter_wanandroid_app/web/web_view.dart';
 import 'package:html/parser.dart';
 import 'package:like_button/like_button.dart';
@@ -17,17 +18,6 @@ class ArticleItem extends StatefulWidget {
 }
 
 class _ArticleItemState extends State<ArticleItem> {
-  RegExp _dateRegExp = RegExp(
-      r'^\d{4}[\-\/\.]((0[1-9])|(1[012]))[\-\/\.]((0[1-9]|[1-2][0-9]|3[0-1]))');
-
-  String _dateString(String? dateString) {
-    if (dateString == null) {
-      return "";
-    }
-    String date = dateString;
-    return _dateRegExp.stringMatch(date) ?? date;
-  }
-
   @override
   void initState() {
     super.initState();
@@ -90,7 +80,8 @@ class _ArticleItemState extends State<ArticleItem> {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: Text(parse(widget.chapterArticle.title).body?.text ?? ""),
+                    child: Text(
+                        parse(widget.chapterArticle.title).body?.text ?? ""),
                   ),
                   LikeButton(
                     likeBuilder: (isLike) {
@@ -111,7 +102,7 @@ class _ArticleItemState extends State<ArticleItem> {
                     Text(widget.chapterArticle.author?.isNotEmpty == true
                         ? widget.chapterArticle.author ?? ""
                         : widget.chapterArticle.shareUser ?? ""),
-                    Text(_dateString(widget.chapterArticle.niceDate))
+                    Text(FlutterUtil.dateString(widget.chapterArticle.niceDate))
                   ],
                 ),
               )
