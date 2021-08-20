@@ -6,6 +6,7 @@ import 'package:retrofit/retrofit.dart';
 
 import 'bean/banner_bean.dart';
 import 'bean/chapter_bean.dart';
+import 'bean/navigation_dart.dart';
 import 'bean/project_bean.dart';
 import 'http_path.dart';
 import 'response/response.dart';
@@ -43,6 +44,10 @@ abstract class RestClient {
   @GET(HttpPath.PROJECT_LIST)
   Stream<BaseResponse<ProjectArticleResponse>> getProjectList(
       @Query("cid") int id, @Path("page") int page);
+
+  @GET(HttpPath.NAVIGATION_LIST)
+  Stream<BaseResponse<List<NavigationBean>>> getNavigation();
+
 }
 
 @JsonSerializable(genericArgumentFactories: true)

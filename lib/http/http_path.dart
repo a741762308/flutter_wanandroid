@@ -24,4 +24,7 @@ class HttpPath {
 
   ///项目列表
   static const String PROJECT_LIST = "/project/list/{page}/json";
+
+  ///导航
+  static const String NAVIGATION_LIST = "/navi/json";
 }

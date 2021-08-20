@@ -32,6 +32,7 @@ class ChapterArticle {
   String? link;
   List<ArticleTag>? tags;
   bool? fresh = false;
+  @JsonKey(ignore: true)
   bool top = false;
 
   ChapterArticle(

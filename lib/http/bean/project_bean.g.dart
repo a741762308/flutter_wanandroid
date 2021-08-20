@@ -64,7 +64,6 @@ Map<String, dynamic> _$ProjectArticleToJson(ProjectArticle instance) =>
       'link': instance.link,
       'tags': instance.tags,
       'fresh': instance.fresh,
-      'top': instance.top,
       'envelopePic': instance.envelopePic,
       'projectLink': instance.projectLink,
     };

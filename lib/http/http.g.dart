@@ -208,6 +208,26 @@ class _RestClient implements RestClient {
     yield value;
   }
 
+  @override
+  Stream<BaseResponse<List<NavigationBean>>> getNavigation() async* {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<BaseResponse<List<NavigationBean>>>(
+            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+                .compose(_dio.options, '/navi/json',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = BaseResponse<List<NavigationBean>>.fromJson(
+        _result.data!,
+        (json) => (json as List<dynamic>)
+            .map<NavigationBean>(
+                (i) => NavigationBean.fromJson(i as Map<String, dynamic>))
+            .toList());
+    yield value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||
