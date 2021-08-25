@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'chapter_bean.dart';
 
-part 'navigation_dart.g.dart';
+part 'navigation_bean.g.dart';
 
 @JsonSerializable()
 class NavigationBean {

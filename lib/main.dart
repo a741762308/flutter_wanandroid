@@ -5,6 +5,7 @@ import 'package:flutter_wanandroid_app/home/home.dart';
 import 'package:flutter_wanandroid_app/navigation/navigation.dart';
 import 'package:flutter_wanandroid_app/project/project.dart';
 import 'package:flutter_wanandroid_app/public/offical.dart';
+import 'package:flutter_wanandroid_app/system/system.dart';
 
 void main() {
   runApp(MyApp());
@@ -41,12 +42,13 @@ class MyMainPage extends StatefulWidget {
 class _MyMainPageState extends State<MyMainPage>
     with SingleTickerProviderStateMixin {
   int _currentTab = 0;
-  final _titles = ["Wan Android", "导航", "项目", "公众号"];
+  final _titles = ["Wan Android", "导航", "体系", "项目", "公众号"];
   late TabController _tabControl;
 
   final _pages = [
     HomePage(),
     NavigationPage(),
+    SystemPage(),
     ProjectPage(),
     WechatPublicPage()
   ];
@@ -113,9 +115,10 @@ class _MyMainPageState extends State<MyMainPage>
         initialActiveIndex: _currentTab,
         items: [
           TabItem(icon: Icons.home, title: '首页'),
-          TabItem(icon: Icons.navigation, title: '导航'),
-          TabItem(icon: MyIcon.project, title: '项目'),
-          TabItem(icon: MyIcon.wechat_public, title: '公众号')
+          TabItem(icon: Icons.navigation, title: _titles[1]),
+          TabItem(icon: Icons.article, title: _titles[2]),
+          TabItem(icon: MyIcon.project, title: _titles[3]),
+          TabItem(icon: MyIcon.wechat_public, title: _titles[4])
         ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );

@@ -39,6 +39,7 @@ dependencies:
   card_swiper: ^1.0.2
   cached_network_image: ^3.0.0
   html: ^0.15.0
+  lpinyin: ^2.0.2
 
 
   # The following adds the Cupertino Icons font to your application.

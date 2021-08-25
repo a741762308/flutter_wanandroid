@@ -228,6 +228,46 @@ class _RestClient implements RestClient {
     yield value;
   }
 
+  @override
+  Stream<BaseResponse<List<SystemBean>>> getSystemClassifyList() async* {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<BaseResponse<List<SystemBean>>>(
+            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+                .compose(_dio.options, '/tree/json',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = BaseResponse<List<SystemBean>>.fromJson(
+        _result.data!,
+        (json) => (json as List<dynamic>)
+            .map<SystemBean>(
+                (i) => SystemBean.fromJson(i as Map<String, dynamic>))
+            .toList());
+    yield value;
+  }
+
+  @override
+  Stream<BaseResponse<ChapterAuthorArticleResponse>> getSystemChapterList(
+      id, page) async* {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'cid': id};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<BaseResponse<ChapterAuthorArticleResponse>>(
+            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+                .compose(_dio.options, '/article/list/$page/json',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = BaseResponse<ChapterAuthorArticleResponse>.fromJson(
+      _result.data!,
+      (json) =>
+          ChapterAuthorArticleResponse.fromJson(json as Map<String, dynamic>),
+    );
+    yield value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

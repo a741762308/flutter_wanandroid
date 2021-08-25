@@ -20,7 +20,7 @@ class ArticleListPage extends StatefulWidget {
 
 class _ArticleListState extends State<ArticleListPage>
     with AutomaticKeepAliveClientMixin {
-  RefreshController _refreshController =
+  final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   final List<ChapterArticle> _items = [
     ChapterArticle(
@@ -40,7 +40,7 @@ class _ArticleListState extends State<ArticleListPage>
   void initState() {
     super.initState();
     _getArticleList().doOnData((value) {
-      print("请求到数据：data length=${value.data?.datas?.length}");
+      print("请求到公众号列表数据：data length=${value.data?.datas?.length}");
       setState(() {
         _items.clear();
         _items.addAll(value.data?.datas ?? Iterable.empty());

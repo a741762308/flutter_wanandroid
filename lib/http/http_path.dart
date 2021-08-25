@@ -13,8 +13,8 @@ class HttpPath {
   ///置顶文章
   static const String TOP_ARTICLE_LIST = "/article/top/json";
 
-  ///首页文章列表
-  static const String HOME_ARTICLE_LIST = "/article/list/{page}/json";
+  ///文章列表
+  static const String ARTICLE_LIST = "/article/list/{page}/json";
 
   ///项目分类
   static const String PROJECT_CLASSIFY = "/project/tree/json";
@@ -27,4 +27,8 @@ class HttpPath {
 
   ///导航
   static const String NAVIGATION_LIST = "/navi/json";
+
+  ///体系分类
+  static const String SYSTEM_CLASSIFY = "/tree/json";
+
 }

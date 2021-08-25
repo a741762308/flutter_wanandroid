@@ -22,7 +22,7 @@ class _TabBarState extends State<WechatPublicPage>
     super.initState();
     _tabController = TabController(length: _tabs.length, vsync: this);
     RestClient(Dio()).getChapterAuthor().doOnData((value) {
-      print("请求到数据：data length=${value.data?.length}");
+      print("请求到公众号数据：data length=${value.data?.length}");
       _tabController =
           TabController(length: value.data?.length ?? 0, vsync: this);
       setState(() {

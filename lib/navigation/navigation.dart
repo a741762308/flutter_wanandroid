@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_wanandroid_app/http/bean/navigation_dart.dart';
+import 'package:flutter_wanandroid_app/http/bean/navigation_bean.dart';
 import 'package:flutter_wanandroid_app/http/http.dart';
+import 'package:flutter_wanandroid_app/util/flutter_util.dart';
 import 'package:flutter_wanandroid_app/util/route_util.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -86,24 +87,23 @@ class _NavigationState extends State<NavigationPage>
                       ? []
                       : _items[_selectPosition].articles!.map((e) {
                           return InkWell(
-                              onTap: () {
-                                RouteUtil.pushWebView(context, e.title, e.link);
-                              },
-                              child: GestureDetector(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(3),
-                                  child: Container(
-                                    padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                                    color: Colors.blue,
-                                    child: Text(
-                                      e.title ?? "",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 16, color: Colors.white),
-                                    ),
-                                  ),
+                            onTap: () {
+                              RouteUtil.pushWebView(context, e.title, e.link);
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(3),
+                              child: Container(
+                                padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                color: FlutterUtil.nameColor(e.title ?? "a"),
+                                child: Text(
+                                  e.title ?? "",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.white),
                                 ),
-                              ));
+                              ),
+                            ),
+                          );
                         }).toList()),
             ),
           ),

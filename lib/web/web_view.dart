@@ -23,13 +23,12 @@ class _WebViewState extends State<WebViewPage> {
   InAppWebViewController? webViewController;
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
       crossPlatform: InAppWebViewOptions(
-        useShouldOverrideUrlLoading: true,
-        mediaPlaybackRequiresUserGesture: false,
-        useOnLoadResource: true
-      ),
+          useShouldOverrideUrlLoading: true,
+          mediaPlaybackRequiresUserGesture: false,
+          useOnLoadResource: true),
       android: AndroidInAppWebViewOptions(
-        useHybridComposition: true,
-      ),
+          useHybridComposition: true,
+          mixedContentMode: AndroidMixedContentMode.MIXED_CONTENT_ALWAYS_ALLOW),
       ios: IOSInAppWebViewOptions(
         allowsInlineMediaPlayback: true,
       ));

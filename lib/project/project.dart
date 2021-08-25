@@ -24,7 +24,7 @@ class _ProjectState extends State<ProjectPage> with TickerProviderStateMixin {
     super.initState();
     _tabController = TabController(length: _tabs.length, vsync: this);
     _apiService.getProjectClassifyList().doOnData((value) {
-      print("请求到数据：data length=${value.data?.length}");
+      print("请求到项目数据：data length=${value.data?.length}");
       int length = value.data?.length ?? 0;
       _tabController = TabController(length: length + 1, vsync: this);
       setState(() {
@@ -51,7 +51,7 @@ class _ProjectState extends State<ProjectPage> with TickerProviderStateMixin {
               );
             }).toList(),
             controller: _tabController,
-            isScrollable: _tabs.length > 5 ? true : false,
+            isScrollable: _tabs.length > 5,
             indicator: MaterialIndicator(
                 height: 2.5,
                 color: Colors.white,

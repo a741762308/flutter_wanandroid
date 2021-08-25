@@ -1,67 +1,50 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_wanandroid_app/http/bean/project_bean.dart';
+import 'package:flutter_wanandroid_app/http/bean/chapter_bean.dart';
+import 'package:flutter_wanandroid_app/http/bean/system_bean.dart';
 import 'package:flutter_wanandroid_app/http/http.dart';
 import 'package:flutter_wanandroid_app/http/response/response.dart';
-import 'package:flutter_wanandroid_app/widget/item_project.dart';
+import 'package:flutter_wanandroid_app/widget/item_article.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rxdart/rxdart.dart';
 
-class ProjectListPage extends StatefulWidget {
-  final int? classifyId;
+class SystemListPage extends StatefulWidget {
+  final SystemTag systemTag;
 
-  const ProjectListPage({Key? key, required this.classifyId}) : super(key: key);
+  SystemListPage({Key? key, required this.systemTag}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return _ProjectList();
-  }
+  State<StatefulWidget> createState() => _SystemListState();
 }
 
-class _ProjectList extends State<ProjectListPage>
+class _SystemListState extends State<SystemListPage>
     with AutomaticKeepAliveClientMixin {
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
-
-  final List<ProjectArticle> _items = [];
+  final List<ChapterArticle> _items = [];
+  int _page = 0;
   final _apiService = RestClient(Dio());
-  int _page = 1;
-
-  @override
-  bool get wantKeepAlive => true;
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
     super.initState();
-    _initPageIndex();
     _getArticleList().doOnData((value) {
-      print("请求到项目列表数据：data length=${value.data?.datas?.length}");
+      print("请求到体系列表数据：data length=${value.data?.datas?.length}");
       setState(() {
         _items.clear();
         _items.addAll(value.data?.datas ?? Iterable.empty());
       });
-    }).doOnError((error, stacktrace) {
-      print(stacktrace);
+    }).doOnError((error, stackTrace) {
+      print(stackTrace);
     }).listen(null);
   }
 
-  void _initPageIndex() {
-    if (widget.classifyId == null) {
-      _page = 0;
-    } else {
-      _page = 1;
-    }
-  }
-
-  Stream<BaseResponse<ProjectArticleResponse>> _getArticleList() {
-    if (widget.classifyId == null) {
-      return _apiService.getLastProjectList(_page);
-    }
-    return _apiService.getProjectList(widget.classifyId!, _page);
+  Stream<BaseResponse<ChapterAuthorArticleResponse>> _getArticleList() {
+    return _apiService.getSystemChapterList(widget.systemTag.id ?? 60, _page);
   }
 
   void _onRefresh() {
-    _initPageIndex();
+    _page = 0;
     _getArticleList().doOnData((value) {
       print("请求到数据：data length=${value.data?.datas?.length}");
       setState(() {
@@ -103,11 +86,14 @@ class _ProjectList extends State<ProjectListPage>
         onLoading: _onLoading,
         child: ListView.builder(
           itemBuilder: ((c, i) {
-            return ProjectItem(projectArticle: _items[i]);
+            return ArticleItem(chapterArticle: _items[i]);
           }),
           itemCount: _items.length,
         ),
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
