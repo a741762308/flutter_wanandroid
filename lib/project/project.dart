@@ -42,8 +42,15 @@ class _ProjectState extends State<ProjectPage> with TickerProviderStateMixin {
     return Scaffold(
       appBar: PreferredSize(
         child: AppBar(
-            flexibleSpace: SafeArea(
-          child: TabBar(
+          leading: IconButton(
+            icon: Icon(Icons.dehaze),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          ),
+          title: Text("项目"),
+          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
+          bottom: TabBar(
             tabs: _tabs.map((e) {
               return SizedBox(
                 height: 30,
@@ -61,8 +68,8 @@ class _ProjectState extends State<ProjectPage> with TickerProviderStateMixin {
             labelStyle: TextStyle(fontSize: 18),
             indicatorPadding: EdgeInsets.fromLTRB(0, 2, 0, 2),
           ),
-        )),
-        preferredSize: Size(double.infinity, 33),
+        ),
+        preferredSize: Size(double.infinity, 80),
       ),
       body: TabBarView(
         children: _tabs.map((e) => ProjectListPage(classifyId: e.id)).toList(),

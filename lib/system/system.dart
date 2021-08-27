@@ -33,48 +33,61 @@ class _SystemState extends State<SystemPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ListView.builder(
-      itemBuilder: (c, i) {
-        return InkWell(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  _item[i].name ?? "",
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: _getWarpChildren(_item[i]),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 10),
-                decoration: BoxDecoration(
-                    border: Border(
-                        bottom: BorderSide(
-                            width: 1,
-                            color: Color(0x10191919),
-                            style: BorderStyle.solid))),
-              ),
-            ],
-          ),
-          onTap: () {
-            Navigator.push(context, CupertinoPageRoute(builder: ((context) {
-              return SystemTabListPage(
-                systemBean: _item[i],
-              );
-            })));
+    return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 48,
+        leading: IconButton(
+          icon: Icon(Icons.dehaze),
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
           },
-        );
-      },
-      itemCount: _item.length,
+        ),
+        title: Text("体系"),
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
+      ),
+      body: ListView.builder(
+        itemBuilder: (c, i) {
+          return InkWell(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    _item[i].name ?? "",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: _getWarpChildren(_item[i]),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              width: 1,
+                              color: Color(0x10191919),
+                              style: BorderStyle.solid))),
+                ),
+              ],
+            ),
+            onTap: () {
+              Navigator.push(context, CupertinoPageRoute(builder: ((context) {
+                return SystemTabListPage(
+                  systemBean: _item[i],
+                );
+              })));
+            },
+          );
+        },
+        itemCount: _item.length,
+      ),
     );
   }
 
