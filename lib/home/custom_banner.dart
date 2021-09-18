@@ -39,7 +39,12 @@ class _CustomBannerState extends State<CustomBanner> {
             Expanded(
               flex: 1,
               child: Text(
-                parse(widget.banners[_currentIndex].title).body?.text ?? "",
+                parse(widget.banners.length > 0
+                            ? widget.banners[_currentIndex].title
+                            : "")
+                        .body
+                        ?.text ??
+                    "",
                 maxLines: 1,
                 textAlign: TextAlign.start,
                 overflow: TextOverflow.ellipsis,

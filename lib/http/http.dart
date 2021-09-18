@@ -8,6 +8,7 @@ import 'bean/banner_bean.dart';
 import 'bean/chapter_bean.dart';
 import 'bean/navigation_bean.dart';
 import 'bean/project_bean.dart';
+import 'bean/search_bean.dart';
 import 'bean/system_bean.dart';
 import 'http_path.dart';
 import 'response/response.dart';
@@ -55,6 +56,9 @@ abstract class RestClient {
   @GET(HttpPath.ARTICLE_LIST)
   Stream<BaseResponse<ChapterAuthorArticleResponse>> getSystemChapterList(
       @Query("cid") int id, @Path("page") int page);
+
+  @GET(HttpPath.SEARCH_HOT_KEY)
+  Stream<BaseResponse<List<SearchKey>>> getHotKeyList();
 }
 
 @JsonSerializable(genericArgumentFactories: true)
@@ -65,8 +69,8 @@ class BaseResponse<T> {
 
   BaseResponse({this.code, this.msg, this.data});
 
-  factory BaseResponse.fromJson(
-          Map<String, dynamic> json, T Function(Object? json) fromJsonT) =>
+  factory BaseResponse.fromJson(Map<String, dynamic> json,
+      T Function(Object? json) fromJsonT) =>
       _$BaseResponseFromJson(json, fromJsonT);
 
   Map<String, dynamic> toJson(Object? Function(T value) toJsonT) =>

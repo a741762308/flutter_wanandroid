@@ -31,4 +31,6 @@ class HttpPath {
   ///体系分类
   static const String SYSTEM_CLASSIFY = "/tree/json";
 
+  ///热搜
+  static const String SEARCH_HOT_KEY = "/hotkey/json";
 }
